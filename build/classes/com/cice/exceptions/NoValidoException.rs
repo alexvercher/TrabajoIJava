@@ -1,0 +1,1 @@
+com.cice.registrador.exceptions.NoValidoException
