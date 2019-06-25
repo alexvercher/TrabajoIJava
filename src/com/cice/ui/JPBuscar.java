@@ -13,11 +13,14 @@ import com.cice.controller.GestorMarcas;
  */
 public class JPBuscar extends javax.swing.JPanel {
 
+    private JFGestorMotor jfg;
+
     /**
      * Creates new form JFBuscar
      */
-    public JPBuscar() {
+    public JPBuscar(JFGestorMotor jfg) {
         initComponents();
+        this.jfg = jfg;
         GestorMarcas gm = new GestorMarcas();
         try {
             MarcasComboModel mcm = new MarcasComboModel(gm.getMarcas());
@@ -86,9 +89,8 @@ public class JPBuscar extends javax.swing.JPanel {
         int idMarcaSelected = ((MarcasComboModel)jcbListaMarcas.getModel()).getIdMarca(selectedIndex);
         
         if (idMarcaSelected != 0){
-            JPListaModelos jpListaModelos = new JPListaModelos(idMarcaSelected);
-            System.out.println("activamos jplistamodelos");
-            jpListaModelos.setVisible(true);
+            jfg.instanciaLista(idMarcaSelected);
+            jfg.cambiarPanel("PanelListaModelos");
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
 

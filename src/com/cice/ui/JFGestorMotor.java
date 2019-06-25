@@ -13,18 +13,21 @@ import java.awt.CardLayout;
  */
 public class JFGestorMotor extends javax.swing.JFrame {
 
-    private JPBuscar jpBuscar = new JPBuscar();
+    private JPBuscar jpBuscar;
     private JPInicio jpInicio = new JPInicio();
+    private JPAltaModelo jpAltaModelo = new JPAltaModelo();
 
     /**
      * Creates new form JFGestorMotor
      */
     public JFGestorMotor() {
         initComponents();
+        jpBuscar = new JPBuscar(this);
         setTitle("Gestor Motor");
         setBounds(300, 200, 800, 600); //Asigna la posición y el tamaño del JFrame
-        getContentPane().add(jpInicio, "PanelInicio");//Agregando el panel JPC al JFrame
-        getContentPane().add(jpBuscar, "PanelBuscar");//Agregando el panel JPC al JFrame
+        getContentPane().add(jpInicio, "PanelInicio");
+        getContentPane().add(jpBuscar, "PanelBuscar");
+        getContentPane().add(jpAltaModelo, "PanelAltaModelo");
     }
 
     /**
@@ -58,6 +61,11 @@ public class JFGestorMotor extends javax.swing.JFrame {
         jMenu1.add(jmiBuscar);
 
         jmiSalir.setText("Salir");
+        jmiSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSalirActionPerformed(evt);
+            }
+        });
         jMenu1.add(jmiSalir);
 
         jMenuBar1.add(jMenu1);
@@ -65,6 +73,11 @@ public class JFGestorMotor extends javax.swing.JFrame {
         jMenu2.setText("Editar");
 
         jmiInsertar.setText("Insertar Modelo");
+        jmiInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiInsertarActionPerformed(evt);
+            }
+        });
         jMenu2.add(jmiInsertar);
 
         jmiBorrar.setText("Borrar Modelo");
@@ -81,11 +94,24 @@ public class JFGestorMotor extends javax.swing.JFrame {
         cambiarPanel("PanelBuscar");
     }//GEN-LAST:event_jmiBuscarActionPerformed
 
+    private void jmiInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInsertarActionPerformed
+        cambiarPanel("PanelAltaModelo");
+    }//GEN-LAST:event_jmiInsertarActionPerformed
+
+    private void jmiSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalirActionPerformed
+        salir();
+    }//GEN-LAST:event_jmiSalirActionPerformed
+
     private void salir() {
         System.exit(0);
     }
 
-    private void cambiarPanel(String nombrePanel) {
+    public void instanciaLista (int idMarca){
+        JPListaModelos jpListaModelos = new JPListaModelos(idMarca);
+        getContentPane().add(jpListaModelos, "PanelListaModelos");
+    }
+    
+    public void cambiarPanel(String nombrePanel) {
         ((CardLayout) (getContentPane().getLayout())).show(getContentPane(), nombrePanel);
     }
 

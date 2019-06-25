@@ -9,6 +9,7 @@ package com.cice.model;
  */
 public class Modelo {
 
+    private int id;
     private int idMarca;
     private String modelo;
     private float consumo;
@@ -23,6 +24,14 @@ public class Modelo {
         this.cEnergetica = cEnergetica;
     }
 
+    public int getId(){
+        return id;
+    }
+    
+    public void setId(int id){
+        this.id = id;
+    }
+    
     public int getIdMarca() {
         return idMarca;
     }
@@ -63,4 +72,10 @@ public class Modelo {
         this.cEnergetica = cEnergetica;
     }
 
+    @Override
+    public String toString() {
+        return "Modelo{id=" + id + "idMarca=" + idMarca + ", modelo=" + modelo + ", consumo=" + consumo + ", emisiones=" + emisiones + ", cEnergetica=" + cEnergetica + '}';
+    }
+
+    
 }

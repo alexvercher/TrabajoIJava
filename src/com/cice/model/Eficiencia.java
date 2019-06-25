@@ -13,10 +13,10 @@ public class Eficiencia {
     private String descripcion;
     private String icon;
 
-    public Eficiencia(String CEnergetica, String Descripcion, String Icono) {
-        this.cEnergetica = CEnergetica;
-        this.descripcion = Descripcion;
-        this.icon = Icono;
+    public Eficiencia(String cEnergetica, String descripcion, String icono) {
+        this.cEnergetica = cEnergetica;
+        this.descripcion = descripcion;
+        this.icon = icono;
     }
 
     public String getcEnergetica() {

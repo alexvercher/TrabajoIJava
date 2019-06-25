@@ -13,9 +13,7 @@ import java.util.List;
  */
 public interface IModeloDAO {
     
-    public void add(Modelo modelo);
-    public void delete(Modelo modelo);
-    public Modelo findById(int id);
+    public void add(Modelo modelo) throws Exception;
+    public void delete(int idModelo) throws Exception;
     public List<Modelo> getModelosMarca(int id) throws Exception;
-    public List<Modelo> getAllModelos();
 }

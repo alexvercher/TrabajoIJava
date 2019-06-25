@@ -18,27 +18,65 @@ import java.util.logging.Logger;
 public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
 
     private String sql = null;
-    private static final int MODELOMARCA = 4;
+    private static final int ADDMODELO = 1;
+    private static final int DELETEMODELO = 2;
+    private static final int MODELOMARCA = 3;
 
     @Override
-    public void add(Modelo modelo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void add(Modelo modelo) throws Exception {
+        try {
+            openConnection();
+            String sql = sentenciaSQL(ADDMODELO);
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setInt(1, modelo.getIdMarca());
+            ps.setString(2, modelo.getModelo());
+            ps.setFloat(3, modelo.getConsumo());
+            ps.setFloat(4, modelo.getEmisiones());
+            ps.setString(5, modelo.getcEnergetica());
+            ps.executeUpdate();
+            closeConnection();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            throw new Exception("No se ha podido conectar con la base de datos. LLamar al CPD");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            switch (ex.getErrorCode()) {
+                case 0:
+                    throw new Exception("No se ha establecido la conexión con la BD.");
+                default:
+                    throw new Exception("Error en la base de datos. Llame al CPD");
+            }
+        }
     }
 
     @Override
-    public void delete(Modelo modelo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Modelo findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void delete(int idModelo) throws Exception{
+        try {
+            openConnection();
+            String sql = sentenciaSQL(DELETEMODELO);
+            PreparedStatement ps = conexion.prepareStatement(sql);
+            ps.setInt(1, idModelo);
+            ps.executeUpdate();
+            closeConnection();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+            throw new Exception("No se ha podido conectar con la base de datos. LLamar al CPD");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            switch (ex.getErrorCode()) {
+                case 0:
+                    throw new Exception("No se ha establecido la conexión con la BD.");
+                default:
+                    throw new Exception("Error en la base de datos. Llame al CPD");
+            }
+        }        
     }
 
     @Override
     public List<Modelo> getModelosMarca(int id) throws Exception {
         List<Modelo> listaModelos = new ArrayList();
         Modelo modelo = null;
+        int idModelo=0;
 
         openConnection();
         try {
@@ -50,6 +88,8 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
 
             while (rs.next()) {
                 modelo = new Modelo(rs.getInt("id_marca"), rs.getString("modelo"), rs.getFloat("consumo"), rs.getFloat("emisiones"), rs.getString("c_energetica"));
+                idModelo = rs.getInt("id");
+                modelo.setId(idModelo);
                 listaModelos.add(modelo);
             }
         } catch (Exception ex) {
@@ -62,24 +102,15 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
         return listaModelos;
     }
 
-    @Override
-    public List<Modelo> getAllModelos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     private String sentenciaSQL(int sentencia) {
 
         switch (sentencia) {
-            case 1:
-                return "caso";
-            case 2:
-                return "caso";
-            case 3:
-                return "caso";
+            case ADDMODELO:
+                return "INSERT INTO MODELOS (ID_MARCA, MODELO, CONSUMO, EMISIONES, C_ENERGETICA) VALUES (?, ?, ?, ?, ?)";
+            case DELETEMODELO:
+                return "DELETE FROM MODELOS WHERE ID=?";
             case MODELOMARCA:
                 return "SELECT * FROM MODELOS WHERE ID_MARCA=?";
-            case 5:
-                return "caso";
             default:
                 return "caso";
         }

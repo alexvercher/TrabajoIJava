@@ -62,8 +62,10 @@ public class ModelosTableModel implements TableModel{
                 return modelo.getEmisiones();
             case 3:
                 return modelo.getcEnergetica();
+            case 4:
+                return modelo.getId();
             default:
-                return "Error";
+                return "error";
         }
     }
 

@@ -3,6 +3,7 @@
  */
 package com.cice.controller;
 
+import com.cice.impl.ModeloDAOImpl;
 import com.cice.interfaces.IModeloDAO;
 import com.cice.model.Modelo;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public class GestorModelos{
   
-    private IModeloDAO modelo;
+    private IModeloDAO modeloImpl = new ModeloDAOImpl();
     
     /**
      * 
@@ -21,6 +22,14 @@ public class GestorModelos{
      * @return Retornará la lista de Modelos de la marca seleccionada
      */
     public List<Modelo> getModelosMarca(int idMarca) throws Exception{
-        return modelo.getModelosMarca(idMarca);
+        return modeloImpl.getModelosMarca(idMarca);
+    }
+    
+    public void addModelo (Modelo modelo) throws Exception{
+        modeloImpl.add(modelo);
+    }
+    
+    public void deleteModelo (int idModelo) throws Exception{
+        modeloImpl.delete(idModelo);
     }
 }
