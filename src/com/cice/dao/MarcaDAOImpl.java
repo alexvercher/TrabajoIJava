@@ -1,11 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Clase de gestión de la tabla MARCAS. Se encargará de la conexión a la
+ * BBDD y de sus accesos para el uso de la tabla
  */
-package com.cice.impl;
+package com.cice.dao;
 
-import com.cice.dao.ConnectionBBDD;
 import com.cice.interfaces.IMarcaDAO;
 import com.cice.model.Marca;
 import java.sql.ResultSet;
@@ -19,8 +17,17 @@ import java.util.List;
  */
 public class MarcaDAOImpl extends ConnectionBBDD implements IMarcaDAO{
 
+    //Constantes
     private static final String SQLMARCAS = "SELECT * FROM MARCAS";
+    private static final String ID = "id";
+    private static final String MARCA = "marca";
+    private static final String ERR_MARCA = "Error al recuperar la lista de marcas";
     
+    /**
+     * 
+     * @return --> Retorna la lista de marcas completa de la tabla
+     * @throws Exception 
+     */
     @Override
     public List<Marca> getMarcas() throws Exception{
         List<Marca> listaMarcas = new ArrayList();
@@ -28,19 +35,16 @@ public class MarcaDAOImpl extends ConnectionBBDD implements IMarcaDAO{
 
         try {
             openConnection();
-            //Acceso a la base de datos
             Statement stm = conexion.createStatement();
             ResultSet rs = stm.executeQuery(SQLMARCAS);
-
             while (rs.next()) {
-                marca = new Marca(rs.getInt("id"), rs.getString("marca"));
+                marca = new Marca(rs.getInt(ID), rs.getString(MARCA));
                 listaMarcas.add(marca);
             }
-            
             closeConnection();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Error al recuperar la lista de marcas");
+            throw new Exception(ERR_MARCA);
         }
         return listaMarcas;        
     }

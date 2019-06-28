@@ -1,11 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Panel de buscar.
+ * Se elegirá a partir del Combo de marcas la marca que se quiere buscar. Al
+ * pulsar cambiará al panel de la lista de modelos para mostrar los modelos
+ * asociados a la marca seleccionada
  */
 package com.cice.ui;
 
 import com.cice.controller.GestorMarcas;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,17 +15,29 @@ import com.cice.controller.GestorMarcas;
  */
 public class JPBuscar extends javax.swing.JPanel {
 
+    //Constantes
+    private static final String ERR_OPCI = "Debe elegir una marca de búsqueda";
+    private static final String PANEL_LISTA = "PanelListaModelos";
+    //Variables de la clase
     private JFGestorMotor jfg;
-
+    private MarcasComboModel mcm = null; 
+    private GestorMarcas gm = new GestorMarcas();
     /**
-     * Creates new form JFBuscar
+     * 
+     * @param jfg: Objeto JFRAME de la aplicación
      */
     public JPBuscar(JFGestorMotor jfg) {
         initComponents();
         this.jfg = jfg;
-        GestorMarcas gm = new GestorMarcas();
+        inicializarCombo();
+    }
+
+    /**
+     * Inicializa el combo de marcas
+     */
+    public void inicializarCombo() {
         try {
-            MarcasComboModel mcm = new MarcasComboModel(gm.getMarcas());
+            mcm = new MarcasComboModel(gm.getMarcas());
             jcbListaMarcas.setModel(mcm);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -59,42 +73,48 @@ public class JPBuscar extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(79, 79, 79)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addGap(34, 34, 34)
                 .addComponent(jcbListaMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addGap(18, 18, 18)
                 .addComponent(jbBuscar)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jcbListaMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(298, Short.MAX_VALUE))
+                .addGap(67, 67, 67)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbBuscar)
+                    .addComponent(jcbListaMarcas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * 
+     * @param evt: Evento del botón buscar. Al seleccionar un elemento de la 
+     * lista se llamará al siguiente panel para mostrar los modelos de la
+     * marca seleccionada
+     */
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         int selectedIndex = jcbListaMarcas.getSelectedIndex();
         int idMarcaSelected = ((MarcasComboModel)jcbListaMarcas.getModel()).getIdMarca(selectedIndex);
         
         if (idMarcaSelected != 0){
-            jfg.instanciaLista(idMarcaSelected);
-            jfg.cambiarPanel("PanelListaModelos");
+            jfg.instanciaLista(idMarcaSelected, jfg);
+            jfg.cambiarPanel(PANEL_LISTA);
+        } else{
+            showDialog(ERR_OPCI);
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
-
-
+    
+    private void showDialog(String mensaje){
+        JOptionPane.showMessageDialog(this, mensaje);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jbBuscar;

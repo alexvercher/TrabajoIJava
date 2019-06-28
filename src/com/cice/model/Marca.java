@@ -12,6 +12,11 @@ public class Marca {
     private int idMarca;
     private String descMarca;
 
+    /**
+     * 
+     * @param idMarca: Id único de la marca
+     * @param descMarca: Descripción de la marca 
+     */
     public Marca(int idMarca, String descMarca) {
         this.idMarca = idMarca;
         this.descMarca = descMarca;

@@ -1,7 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Clase que servirá para cargar la lista de modelos de una marca seleccionada
+ * Se compondrá de 4 columnas con la información de cada modelo:
+ * - Descripción del modelo
+ * - Consumo
+ * - Emisiones
+ * - Clasificación energética
  */
 package com.cice.ui;
 
@@ -16,6 +19,9 @@ import javax.swing.table.TableModel;
  */
 public class ModelosTableModel implements TableModel{
 
+    //Constantes
+    private static final String ERROR = "Error";
+    //Variables de la clase
     private List<Modelo> modelos;
     private String[] nombresColumna = {"Modelo", "Consumo", "Emisiones", "C_Energetica"};
     private Class[] tipos = {String.class, Short.class, Short.class, String.class};
@@ -65,7 +71,7 @@ public class ModelosTableModel implements TableModel{
             case 4:
                 return modelo.getId();
             default:
-                return "error";
+                return ERROR;
         }
     }
 

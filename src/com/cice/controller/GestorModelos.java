@@ -1,9 +1,9 @@
 /*
- * Clase encargada del acceso a BBDD, así como el matenimiento de la tabla Modelos
+ * Gestión de modelos. Recupera una lista de modelos según la marca
  */
 package com.cice.controller;
 
-import com.cice.impl.ModeloDAOImpl;
+import com.cice.dao.ModeloDAOImpl;
 import com.cice.interfaces.IModeloDAO;
 import com.cice.model.Modelo;
 import java.util.List;

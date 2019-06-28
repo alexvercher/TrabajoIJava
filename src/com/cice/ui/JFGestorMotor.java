@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Marco principal de la aplicación que englobará todos los paneles
  */
 package com.cice.ui;
 
@@ -45,7 +43,6 @@ public class JFGestorMotor extends javax.swing.JFrame {
         jmiSalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jmiInsertar = new javax.swing.JMenuItem();
-        jmiBorrar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -80,9 +77,6 @@ public class JFGestorMotor extends javax.swing.JFrame {
         });
         jMenu2.add(jmiInsertar);
 
-        jmiBorrar.setText("Borrar Modelo");
-        jMenu2.add(jmiBorrar);
-
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -92,6 +86,7 @@ public class JFGestorMotor extends javax.swing.JFrame {
 
     private void jmiBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiBuscarActionPerformed
         cambiarPanel("PanelBuscar");
+        jpBuscar.inicializarCombo();
     }//GEN-LAST:event_jmiBuscarActionPerformed
 
     private void jmiInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInsertarActionPerformed
@@ -106,8 +101,8 @@ public class JFGestorMotor extends javax.swing.JFrame {
         System.exit(0);
     }
 
-    public void instanciaLista (int idMarca){
-        JPListaModelos jpListaModelos = new JPListaModelos(idMarca);
+    public void instanciaLista (int idMarca, JFGestorMotor jfg){
+        JPListaModelos jpListaModelos = new JPListaModelos(idMarca, jfg);
         getContentPane().add(jpListaModelos, "PanelListaModelos");
     }
     
@@ -154,7 +149,6 @@ public class JFGestorMotor extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jmiBorrar;
     private javax.swing.JMenuItem jmiBuscar;
     private javax.swing.JMenuItem jmiInsertar;
     private javax.swing.JMenuItem jmiSalir;

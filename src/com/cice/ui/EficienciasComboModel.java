@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Clase para el tratamiento del Combo de eficiencias.
+ * Generará una lista de eficiencias que se desplegará en pantalla
  */
 package com.cice.ui;
 
@@ -28,10 +27,13 @@ public class EficienciasComboModel extends DefaultComboBoxModel<String>{
 
     @Override
     public String getElementAt(int index) {
-        return eficiencias.get(index).getcEnergetica();
+        return eficiencias.get(index).getDescripcion();
     }
     
     public String getCEnergetica(int index){
+       if (index < 0){
+            return  " ";
+        }        
         return eficiencias.get(index).getcEnergetica();
     }
 }

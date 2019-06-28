@@ -1,14 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Panel de alta de modelo.
+ * Insertando los valores correspondientes se dará de alta el modelo
+ * en la BBDD
  */
 package com.cice.ui;
 
+import com.cice.controller.EnumEficiencias;
 import com.cice.controller.GestorEficiencias;
 import com.cice.controller.GestorMarcas;
 import com.cice.controller.GestorModelos;
+import com.cice.exceptions.NoValidoException;
+import com.cice.model.Eficiencia;
 import com.cice.model.Modelo;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,23 +21,54 @@ import javax.swing.JOptionPane;
  */
 public class JPAltaModelo extends javax.swing.JPanel {
 
+    //Constantes
+    private static final String INFO_MODELO = "MODEL CREADO CORRECTAMENTE";
+    private static final String ERR_NUMEROS = "Ingresar solo números";
+    private static final String ERR_CARACTER = "Carácter inválido";
+    private static final String ERR_ID_MARCA = "Elija una marca de la lista";
+    private static final String ERR_CONSUMO = "Inserte valor de consumo";
+    private static final String ERR_EMISIONES = "Inserte valor de emisiones";
+    private static final String ERR_MODELO = "Debe introducir un modelo";
+    //Variables de la clase
+    private float consumo = 0;
+    private float emision = 0;
+    private GestorMarcas gm = new GestorMarcas();
+    private GestorEficiencias ge = new GestorEficiencias();
+    private ArrayList<EnumEficiencias> eficienciasArray = new ArrayList<>();
     /**
      * Creates new form JPAltaModelo
      */
     public JPAltaModelo() {
         initComponents();
-        GestorMarcas gm = new GestorMarcas();
-        GestorEficiencias ge = new GestorEficiencias();
+        inicializarCampos();
+    }
+
+    public void inicializarCampos() {
         try {
             MarcasComboModel mcm = new MarcasComboModel(gm.getMarcas());
             EficienciasComboModel ecm = new EficienciasComboModel(ge.getEficiencias());
+            cargarArrayListEficiencias();
+            EficienciasComboModelEnum ecme = new EficienciasComboModelEnum(eficienciasArray);
             jcbListaMarcas.setModel(mcm);
-            jcbEficiencia.setModel(ecm);
+            jcbEficiencia.setModel(ecme);
+            jtfModelo.setText("");
+            jtfConsumo.setText("");
+            jtfEmisiones.setText("");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
+    private void cargarArrayListEficiencias(){
+        eficienciasArray.add(EnumEficiencias.CA);
+        eficienciasArray.add(EnumEficiencias.CB); 
+        eficienciasArray.add(EnumEficiencias.CC);
+        eficienciasArray.add(EnumEficiencias.CD);
+        eficienciasArray.add(EnumEficiencias.CE);
+        eficienciasArray.add(EnumEficiencias.CF);
+        eficienciasArray.add(EnumEficiencias.CG);
+        eficienciasArray.add(EnumEficiencias.NA);        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,13 +138,13 @@ public class JPAltaModelo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jcbListaMarcas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jtfModelo)
-                    .addComponent(jcbEficiencia, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jtfConsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtfEmisiones, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)))
+                        .addComponent(jtfEmisiones, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
+                    .addComponent(jcbEficiencia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(147, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -153,19 +188,25 @@ public class JPAltaModelo extends javax.swing.JPanel {
         int selectedEficiencia = jcbEficiencia.getSelectedIndex();
 
         int idMarcaSelected = ((MarcasComboModel) jcbListaMarcas.getModel()).getIdMarca(selectedMarca);
-        String cEnergetica = ((EficienciasComboModel) jcbEficiencia.getModel()).getCEnergetica(selectedEficiencia);
-        float consumo = Float.parseFloat(jtfConsumo.getText());
-        float emision = Float.parseFloat(jtfEmisiones.getText());
-
-        Modelo modelo = new Modelo(idMarcaSelected, jtfModelo.getText(), consumo, emision, cEnergetica);
+        //String cEnergetica = ((EficienciasComboModel) jcbEficiencia.getModel()).getCEnergetica(selectedEficiencia);
+        String cEnergetica = ((EficienciasComboModelEnum) jcbEficiencia.getModel()).getLetra(selectedEficiencia);
         
-        System.out.println(modelo);
-
-        GestorModelos gm = new GestorModelos();
+        if(jtfConsumo.getText().trim().length() != 0){
+            consumo = Float.parseFloat(jtfConsumo.getText());
+        }
         
+        if (jtfEmisiones.getText().trim().length() != 0){
+            emision = Float.parseFloat(jtfEmisiones.getText());
+        }
+
         try {
+            Modelo modelo = new Modelo(idMarcaSelected, jtfModelo.getText(), consumo, emision, cEnergetica);
+            GestorModelos gm = new GestorModelos();
             gm.addModelo(modelo);
-            showDialog("MODEL CREADO CORRECTAMENTE");
+            showDialog(INFO_MODELO);
+            inicializarCampos();
+        } catch (NoValidoException ex) {
+            showDialog(ex.getNombreParametro());
         } catch (Exception ex) {
             showDialog(ex.getMessage());
         }
@@ -178,7 +219,7 @@ public class JPAltaModelo extends javax.swing.JPanel {
         if (Character.isLetter(validar)) {
             getToolkit().beep();
             evt.consume();
-            JOptionPane.showMessageDialog(jtfEmisiones, "Ingresar solo números");
+            JOptionPane.showMessageDialog(jtfEmisiones, ERR_NUMEROS);
         } else if ((int) evt.getKeyChar() > 32 && (int) evt.getKeyChar() <= 45 
                 || (int) evt.getKeyChar() >= 58 && (int) evt.getKeyChar() <= 64
                 || (int) evt.getKeyChar() >= 91 && (int) evt.getKeyChar() <= 96
@@ -186,7 +227,7 @@ public class JPAltaModelo extends javax.swing.JPanel {
         {
             getToolkit().beep();
             evt.consume();
-            JOptionPane.showMessageDialog(jtfEmisiones, "Carácter inválido");
+            JOptionPane.showMessageDialog(jtfEmisiones, ERR_CARACTER);
         }
     }//GEN-LAST:event_jtfConsumoKeyTyped
 

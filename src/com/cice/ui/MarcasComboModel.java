@@ -1,3 +1,8 @@
+/**
+ * Clase para el tratamiento del Combo de marcas.
+ * Generará una lista de marcas que se desplegará en pantalla 
+ */
+
 package com.cice.ui;
 
 import com.cice.model.Marca;
@@ -6,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 
 
 public class MarcasComboModel extends DefaultComboBoxModel<String>{
-    private List<Marca> marcas;
+    private List<Marca> marcas = null;
     
     public MarcasComboModel(List<Marca> marcas){
         this.marcas = marcas;
@@ -23,6 +28,9 @@ public class MarcasComboModel extends DefaultComboBoxModel<String>{
     }
     
     public int getIdMarca(int index){
+        if (index < 0){
+            return 0;
+        }
         return marcas.get(index).getIdMarca();
     }
 }

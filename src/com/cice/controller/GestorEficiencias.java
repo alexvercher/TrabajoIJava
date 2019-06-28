@@ -1,11 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Gestión de las eficiencias. Devuelve una lista de las eficiencias
  */
 package com.cice.controller;
 
-import com.cice.impl.EficienciaDAOImpl;
+import com.cice.dao.EficienciaDAOImpl;
 import com.cice.interfaces.IEficienciaDAO;
 import com.cice.model.Eficiencia;
 import java.util.List;

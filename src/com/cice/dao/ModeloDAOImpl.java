@@ -1,10 +1,9 @@
 /*
- * Clase que hereda de la interfaz IModeloDAO, y que implementará los métodos de mantenimiento
- * de la clase Modelo.
+ * Clase de gestión de la tabla MODELOS. Se encargará de la conexión a la
+ * BBDD y de sus accesos para el mantenimiento de la tabla
  */
-package com.cice.impl;
+package com.cice.dao;
 
-import com.cice.dao.ConnectionBBDD;
 import com.cice.interfaces.IModeloDAO;
 import com.cice.model.Modelo;
 import java.sql.PreparedStatement;
@@ -12,16 +11,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
 
-    private String sql = null;
+    //Constantes
+    private static final String SQL_INSERT = "INSERT INTO MODELOS (ID_MARCA, MODELO, CONSUMO, EMISIONES, C_ENERGETICA) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_DELETE = "DELETE FROM MODELOS WHERE ID=?";
+    private static final String SQL_MODELO = "SELECT * FROM MODELOS WHERE ID_MARCA=?";
     private static final int ADDMODELO = 1;
     private static final int DELETEMODELO = 2;
     private static final int MODELOMARCA = 3;
-
+    private static final String ERR_ADD = "Error al insertar modelo";
+    private static final String ERR_DEL = "Error al borrar modelo";
+    private static final String ERR_LISTA = "Error al recuperar lista de modelos";
+    private static final String ID_MARCA = "id_marca";
+    private static final String MODELO = "modelo";
+    private static final String CONSUMO = "consumo";
+    private static final String EMISIONES = "emisiones";    
+    private static final String C_ENERG = "c_energetica";
+    private static final String ID = "id";    
+    private static final String ERROR = "error";
+    //Variables de la clase
+    private String sql = null;
+    
+    /**
+     * 
+     * @param modelo --> Insertar un modelo en tabla
+     * @throws Exception 
+     */
     @Override
     public void add(Modelo modelo) throws Exception {
         try {
@@ -35,20 +52,17 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
             ps.setString(5, modelo.getcEnergetica());
             ps.executeUpdate();
             closeConnection();
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex){
             ex.printStackTrace();
-            throw new Exception("No se ha podido conectar con la base de datos. LLamar al CPD");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            switch (ex.getErrorCode()) {
-                case 0:
-                    throw new Exception("No se ha establecido la conexión con la BD.");
-                default:
-                    throw new Exception("Error en la base de datos. Llame al CPD");
-            }
+            throw new Exception(ERR_ADD);
         }
     }
 
+    /**
+     * 
+     * @param idModelo --> Borrar un modelo de la tabla a partir de su ID
+     * @throws Exception 
+     */
     @Override
     public void delete(int idModelo) throws Exception{
         try {
@@ -58,46 +72,40 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
             ps.setInt(1, idModelo);
             ps.executeUpdate();
             closeConnection();
-        } catch (ClassNotFoundException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("No se ha podido conectar con la base de datos. LLamar al CPD");
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            switch (ex.getErrorCode()) {
-                case 0:
-                    throw new Exception("No se ha establecido la conexión con la BD.");
-                default:
-                    throw new Exception("Error en la base de datos. Llame al CPD");
-            }
-        }        
+            throw new Exception(ERR_DEL);
+        }
     }
 
+    /**
+     * 
+     * @param id
+     * @return --> Retorna la lista de modelos de una marca a partir del id
+     * de la marca
+     * @throws Exception 
+     */
     @Override
     public List<Modelo> getModelosMarca(int id) throws Exception {
         List<Modelo> listaModelos = new ArrayList();
         Modelo modelo = null;
         int idModelo=0;
-
-        openConnection();
         try {
-            //Acceso a la base de datos
+            openConnection();
             sql = sentenciaSQL(MODELOMARCA);
             PreparedStatement ps = conexion.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
-                modelo = new Modelo(rs.getInt("id_marca"), rs.getString("modelo"), rs.getFloat("consumo"), rs.getFloat("emisiones"), rs.getString("c_energetica"));
-                idModelo = rs.getInt("id");
+                modelo = new Modelo(rs.getInt(ID), rs.getString(MODELO), rs.getFloat(CONSUMO), rs.getFloat(EMISIONES), rs.getString(C_ENERG));
+                idModelo = rs.getInt(ID);
                 modelo.setId(idModelo);
                 listaModelos.add(modelo);
             }
+            closeConnection();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Error al recuperar la lista de modelos por marca");
-        } finally {
-            //Fin del acceso
-            closeConnection();
+            throw new Exception(ERR_LISTA);
         }
         return listaModelos;
     }
@@ -106,13 +114,13 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
 
         switch (sentencia) {
             case ADDMODELO:
-                return "INSERT INTO MODELOS (ID_MARCA, MODELO, CONSUMO, EMISIONES, C_ENERGETICA) VALUES (?, ?, ?, ?, ?)";
+                return SQL_INSERT;
             case DELETEMODELO:
-                return "DELETE FROM MODELOS WHERE ID=?";
+                return SQL_DELETE;
             case MODELOMARCA:
-                return "SELECT * FROM MODELOS WHERE ID_MARCA=?";
+                return SQL_MODELO;
             default:
-                return "caso";
+                return ERROR;
         }
     }
 }

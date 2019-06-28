@@ -1,11 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Clase de gestión de la tabla EFICIENCIAS. Se encargará de la conexión a la
+ * BBDD y de sus accesos para el uso de la tabla
  */
-package com.cice.impl;
+package com.cice.dao;
 
-import com.cice.dao.ConnectionBBDD;
 import com.cice.interfaces.IEficienciaDAO;
 import com.cice.model.Eficiencia;
 import java.sql.ResultSet;
@@ -19,8 +17,18 @@ import java.util.List;
  */
 public class EficienciaDAOImpl extends ConnectionBBDD implements IEficienciaDAO {
 
-    private static final String SQLEFICIENCIAS = "SELECT * FROM EFICIENCIAS";
+    //Constantes
+    private static final String SQL = "SELECT * FROM EFICIENCIAS";
+    private static final String C_E = "c_energetica";
+    private static final String DESC = "descripcion";
+    private static final String ICONO = "icono";
+    private static final String ERR_EFIC = "Error al recuperar la lista de eficiencias";
 
+    /**
+     * 
+     * @return --> Retorna la lista completa de eficiencias de la tabla
+     * @throws Exception 
+     */
     @Override
     public List<Eficiencia> getEficiencias() throws Exception {
         List<Eficiencia> listaEficiencias = new ArrayList();
@@ -28,19 +36,16 @@ public class EficienciaDAOImpl extends ConnectionBBDD implements IEficienciaDAO 
 
         try {
             openConnection();
-            //Acceso a la base de datos
             Statement stm = conexion.createStatement();
-            ResultSet rs = stm.executeQuery(SQLEFICIENCIAS);
-
+            ResultSet rs = stm.executeQuery(SQL);
             while (rs.next()) {
-                eficiencia = new Eficiencia(rs.getString("c_energetica"), rs.getString("descripcion"), rs.getString("icono"));
+                eficiencia = new Eficiencia(rs.getString(C_E), rs.getString(DESC), rs.getString(ICONO));
                 listaEficiencias.add(eficiencia);
             }
-
             closeConnection();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Error al recuperar la lista de eficiencias");
+            throw new Exception(ERR_EFIC);
         }
         return listaEficiencias;
     }

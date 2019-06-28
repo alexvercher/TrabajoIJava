@@ -1,3 +1,7 @@
+/**
+ * Clase que realiza la conexión a la base de datos
+ */
+
 package com.cice.dao;
 
 import java.sql.Connection;
@@ -20,6 +24,7 @@ public class ConnectionBBDD {
             conexion.close();
         } catch (Exception ex) {
             ex.printStackTrace();
+            ex.getMessage();
         }
     }
 }

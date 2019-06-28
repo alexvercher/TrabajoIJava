@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Interfaz para la construcción de la gestión de la tabla Marcas.
+ * Se compone de 1 método:
+ * - Recupera las marcas
  */
 package com.cice.interfaces;
 

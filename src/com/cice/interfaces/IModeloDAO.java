@@ -1,10 +1,13 @@
 /*
- * Interfaz para la construcción de la gestión de la tabla Modelos
+ * Interfaz para la construcción de la gestión de la tabla Modelos.
+ * Se compone de 3 métodos:
+ * - Añadir modelo
+ * - Borrar modelo
+ * - Recuperar los modelos de una marca
  */
 package com.cice.interfaces;
 
 import com.cice.model.Modelo;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
