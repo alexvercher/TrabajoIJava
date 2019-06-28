@@ -15,6 +15,11 @@ public class ConnectionBBDD {
     private static final String USUARIO = "USRJAVA2019";
     private static final String PASSWORD = "PWD2019ORACLE";
 
+    /**
+     * 
+     * @throws ClassNotFoundException error de clase
+     * @throws SQLException error de SQL
+     */
     public void openConnection() throws ClassNotFoundException, SQLException {
         conexion = DriverManager.getConnection(URLCONEXION, USUARIO, PASSWORD);
     }

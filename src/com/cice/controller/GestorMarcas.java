@@ -15,7 +15,12 @@ import java.util.List;
 public class GestorMarcas {
     
     private IMarcaDAO marca = new MarcaDAOImpl();
-    
+
+/**
+ * 
+ * @return: retorna la lista de marcas
+ * @throws Exception excepción proviene de la llamada a la clase de implementación
+ */    
     public List<Marca> getMarcas() throws Exception{
         return marca.getMarcas();
     }

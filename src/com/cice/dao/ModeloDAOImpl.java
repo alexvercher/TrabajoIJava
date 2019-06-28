@@ -36,8 +36,9 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
     
     /**
      * 
-     * @param modelo --> Insertar un modelo en tabla
-     * @throws Exception 
+     * @param modelo Insertar un modelo en tabla
+     * @throws Exception excepción lanzado por problemas con la conexión a la
+     * BBDD, o por la sentencia SQL ejecutada
      */
     @Override
     public void add(Modelo modelo) throws Exception {
@@ -60,8 +61,9 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
 
     /**
      * 
-     * @param idModelo --> Borrar un modelo de la tabla a partir de su ID
-     * @throws Exception 
+     * @param idModelo Borrar un modelo de la tabla a partir de su ID
+     * @throws Exception excepción lanzado por problemas con la conexión a la
+     * BBDD, o por la sentencia SQL ejecutada
      */
     @Override
     public void delete(int idModelo) throws Exception{
@@ -80,10 +82,11 @@ public class ModeloDAOImpl extends ConnectionBBDD implements IModeloDAO {
 
     /**
      * 
-     * @param id
-     * @return --> Retorna la lista de modelos de una marca a partir del id
+     * @param id ID de la marca para consultar los modelos
+     * @return  Retorna la lista de modelos de una marca a partir del id
      * de la marca
-     * @throws Exception 
+     * @throws Exception excepción lanzado por problemas con la conexión a la
+     * BBDD, o por la sentencia SQL ejecutada
      */
     @Override
     public List<Modelo> getModelosMarca(int id) throws Exception {

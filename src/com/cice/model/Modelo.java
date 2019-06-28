@@ -25,11 +25,12 @@ public class Modelo {
 
     /**
      * CONSTRUCTOR
-     * @param idMarca: ID de la marca asociada al modelo
-     * @param modelo: Descripción del modelo
-     * @param consumo: Consumo del modelo
-     * @param emisiones: Emisiones del modelo
-     * @param cEnergetica: Clasificación energética asociada al modelo 
+     * @param idMarca ID de la marca asociada al modelo
+     * @param modelo Descripción del modelo
+     * @param consumo Consumo del modelo
+     * @param emisiones Emisiones del modelo
+     * @param cEnergetica Clasificación energética asociada al modelo 
+     * @throws NoValidoException error de validación de datos de entrada
      */
     
     public Modelo(int idMarca, String modelo, float consumo, float emisiones, String cEnergetica) throws NoValidoException{
@@ -96,12 +97,13 @@ public class Modelo {
 
     /**
      * Validaciones principales
-     * @param idMarca: Debe estar informada
-     * @param modelo: Debe venir informado
-     * @param consumo: Debe ser mayor que cero
-     * @param emisiones: Debe ser mayor que cero
-     * @param cEnergetica: Debe venir informado
-     * @throws NoValidoException 
+     * @param idMarca Debe estar informada
+     * @param modelo Debe venir informado
+     * @param consumo Debe ser mayor que cero
+     * @param emisiones Debe ser mayor que cero
+     * @param cEnergetica Debe venir informado
+     * @throws NoValidoException Lanzará excepción si no cumple las validaciones
+     * correspondientes
      */
     private void validar(int idMarca, String modelo, float consumo, float emisiones, String cEnergetica) throws NoValidoException{
         if (idMarca == 0){

@@ -26,8 +26,9 @@ public class EficienciaDAOImpl extends ConnectionBBDD implements IEficienciaDAO 
 
     /**
      * 
-     * @return --> Retorna la lista completa de eficiencias de la tabla
-     * @throws Exception 
+     * @return : Retorna la lista completa de eficiencias de la tabla
+     * @throws Exception excepción lanzado por problemas con la conexión a la
+     * BBDD, o por la sentencia SQL ejecutada
      */
     @Override
     public List<Eficiencia> getEficiencias() throws Exception {

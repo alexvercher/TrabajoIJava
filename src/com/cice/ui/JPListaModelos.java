@@ -25,9 +25,11 @@ public class JPListaModelos extends javax.swing.JPanel {
     private JFGestorMotor jfg;
     private int idMarca = 0;
 
-    /**
-     * Creates new form JPListaModelos
-     */
+/**
+ * 
+ * @param idMarca: Marca seleccionada
+ * @param jfg: Isntancia del marco principal
+ */
     public JPListaModelos(int idMarca, JFGestorMotor jfg) {
         initComponents();
         this.jfg = jfg;

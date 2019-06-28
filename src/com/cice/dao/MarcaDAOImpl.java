@@ -25,8 +25,9 @@ public class MarcaDAOImpl extends ConnectionBBDD implements IMarcaDAO{
     
     /**
      * 
-     * @return --> Retorna la lista de marcas completa de la tabla
-     * @throws Exception 
+     * @return: Retorna la lista de marcas completa de la tabla
+     * @throws Exception excepción lanzado por problemas con la conexión a la
+     * BBDD, o por la sentencia SQL ejecutada
      */
     @Override
     public List<Marca> getMarcas() throws Exception{

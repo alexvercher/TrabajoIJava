@@ -14,7 +14,12 @@ import java.util.List;
  */
 public class GestorEficiencias {
     private IEficienciaDAO eficiencia = new EficienciaDAOImpl();
-    
+
+/**
+ * 
+ * @return lista de eficiencias
+ * @throws Exception excepción proviene de la llamada a la clase de implementación
+ */    
     public List<Eficiencia> getEficiencias() throws Exception{
         return eficiencia.getEficiencias();
     }    

@@ -3,8 +3,6 @@
  */
 package com.cice.model;
 
-import com.cice.exceptions.NoValidoException;
-
 /**
  *
  * @author AVECH3H
@@ -26,7 +24,6 @@ public class Eficiencia {
      * @param cEnergetica: Clasificación energética
      * @param descripcion: Descripción de la eficiencia
      * @param icono: Imagen de la eficiencia
-     * @throws NoValidoException 
      */
     public Eficiencia(String cEnergetica, String descripcion, String icono){
         this.cEnergetica = cEnergetica;
